@@ -1,6 +1,8 @@
 defmodule ElixirTodosWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :elixir_todos
 
+  socket "/live", Phoenix.LiveView.Socket
+
   socket "/socket", ElixirTodosWeb.UserSocket,
     websocket: true,
     longpoll: false

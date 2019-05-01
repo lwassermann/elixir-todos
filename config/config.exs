@@ -15,7 +15,8 @@ config :elixir_todos, ElixirTodosWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "WvqDzHp3lGyE7RKklKRgDo2HRUNP+bG6s6y5DRrkhvOi8qEmbPycPnKUGqN9r653",
   render_errors: [view: ElixirTodosWeb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: ElixirTodos.PubSub, adapter: Phoenix.PubSub.PG2]
+  pubsub: [name: ElixirTodos.PubSub, adapter: Phoenix.PubSub.PG2],
+  live_view: [signing_salt: "KuB/S95qvu7GD5Ug0v92t5tL7Wqw76t6"]
 
 # Configures Elixir's Logger
 config :logger, :console,
