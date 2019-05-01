@@ -3,9 +3,22 @@
   <%= submit "Add", phx_disable_with: "Adding..." %>
 </form>
 
+<table>
+  <thead><tr><th>Done</th><th>Text</th><th>Delete</th></tr></thead>
+  <tbody>
 <%= for todo <- @todos do %>
-<div>
-  <%= checkbox(:todo, :done, phx_click: "toggle_done", phx_value: todo.id, value: todo.done) %>
-  <%= todo.title %>
-</div>
+    <tr>
+      <td>
+        <%= checkbox(:todo, :done, phx_click: "toggle_done", phx_value: todo.id, value: todo.done) %>
+      </td>
+      <td>
+        <%= todo.title %>
+      </td>
+      <td>
+        <button phx-click="delete" phx-value="<%= todo.id %>">Delete</button>
+      </td>
+    </tr>
 <% end %>
+
+  </tbody>
+</table>

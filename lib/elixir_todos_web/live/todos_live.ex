@@ -26,6 +26,12 @@ defmodule ElixirTodosWeb.TodoLive do
     {:noreply, socket}
   end
 
+  def handle_event("delete", id, socket) do
+    todo = Todos.get_todo!(id)
+    Todos.delete_todo(todo)
+    {:noreply, socket}
+  end
+
   def handle_info({Todos, [:todo | _], _}, socket) do
     {:noreply, fetch(socket)}
   end
