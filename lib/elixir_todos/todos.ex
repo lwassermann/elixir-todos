@@ -53,6 +53,7 @@ defmodule ElixirTodos.Todos do
     %Todo{}
     |> Todo.changeset(attrs)
     |> Repo.insert()
+    |> broadcast_change([:todo, :created])
   end
 
   @doc """
@@ -71,6 +72,7 @@ defmodule ElixirTodos.Todos do
     todo
     |> Todo.changeset(attrs)
     |> Repo.update()
+    |> broadcast_change([:todo, :updated])
   end
 
   @doc """
@@ -87,6 +89,7 @@ defmodule ElixirTodos.Todos do
   """
   def delete_todo(%Todo{} = todo) do
     Repo.delete(todo)
+    |> broadcast_change([:todo, :deleted])
   end
 
   @doc """
@@ -100,5 +103,23 @@ defmodule ElixirTodos.Todos do
   """
   def change_todo(%Todo{} = todo) do
     Todo.changeset(todo, %{})
+  end
+
+  @topic inspect(__MODULE__)
+
+  @doc """
+  Allows LiveViews to subscribe to changes in this context
+  """
+  def subscribe do
+    Phoenix.PubSub.subscribe(ElixirTodos.PubSub, @topic)
+  end
+
+  @doc """
+  Trigger a change broadcast for this context
+  """
+  defp broadcast_change({:ok, result}, event) do
+    Phoenix.PubSub.broadcast(ElixirTodos.PubSub, @topic, {__MODULE__, event, result})
+
+    {:ok, result}
   end
 end
